@@ -12,8 +12,7 @@ CREATE TABLE Citizen (
     citizen_name VARCHAR(100) NOT NULL,
     citizen_email VARCHAR(100) UNIQUE NOT NULL,
     citizen_password VARCHAR(255) NOT NULL,
-    age INT,
-    phone_number VARCHAR(15) UNIQUE
+    citizen_phone_number VARCHAR(15) UNIQUE
 );
 
 
@@ -24,7 +23,7 @@ CREATE TABLE Administration (
     admin_name VARCHAR(100) NOT NULL,
     admin_email VARCHAR(100) UNIQUE NOT NULL,
     admin_password VARCHAR(255) NOT NULL,
-    phone_number VARCHAR(15) UNIQUE
+    admin_phone_number VARCHAR(15) UNIQUE
 );
 
 
@@ -70,3 +69,5 @@ CREATE TABLE Application_status (
         REFERENCES Administration(admin_id)
         ON DELETE SET NULL
 );
+
+
