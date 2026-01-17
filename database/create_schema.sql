@@ -5,7 +5,7 @@ DROP TABLE IF EXISTS Administration;
 DROP TABLE IF EXISTS Citizen;
 
 
--- Citizen Table
+-- Citizen Table (1000 rows )
 
 CREATE TABLE Citizen (
     citizen_id INT AUTO_INCREMENT PRIMARY KEY,
@@ -16,7 +16,7 @@ CREATE TABLE Citizen (
 );
 
 
--- Administration Table
+-- Administration Table (50 rows)
 
 CREATE TABLE Administration (
     admin_id INT AUTO_INCREMENT PRIMARY KEY,
@@ -27,7 +27,7 @@ CREATE TABLE Administration (
 );
 
 
--- Grants Table
+-- Grants Table (25 rows)
 
 CREATE TABLE Grants (
     grant_id INT AUTO_INCREMENT PRIMARY KEY,
@@ -48,7 +48,7 @@ CREATE TABLE Grants (
 
 
 
--- Application Status Table
+-- Application Status Table (25 rows)
 
 CREATE TABLE Application_status (
     application_id INT AUTO_INCREMENT PRIMARY KEY,
