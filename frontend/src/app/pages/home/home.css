@@ -1,0 +1,154 @@
+/* Announcement Bar Animation */
+.announcement-bar {
+  background: #003366;
+  color: white;
+  padding: 10px 0;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.marquee {
+  display: inline-block;
+  animation: scroll-left 20s linear infinite;
+}
+
+@keyframes scroll-left {
+  0% { transform: translateX(100%); }
+  100% { transform: translateX(-100%); }
+}
+
+/* Header & Logo */
+.main-header {
+  display: flex;
+  align-items: center;
+  padding: 20px 0;
+  background: white;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  width: 100%;
+  padding-top: 5px;
+  padding-bottom: 10px;
+}
+
+.logo-img {
+  height: 50px;
+  margin-right: 15px;
+  width: auto;           
+  display: block;  
+  padding : 10px 0;
+  margin-left: 20px;
+}
+.logo-container {
+  display: flex;
+  align-items: center;
+}
+
+.portal-name {
+  font-size: 2.5rem;
+  font-weight: bold;
+  color: #003366;
+}
+
+/* Stats Section */
+.stats-container {
+  display: flex;
+  justify-content: space-around;
+  padding: 50px 10%;
+  background: #f4f7f6;
+  text-align: center;
+}
+
+.stat-card h3 {
+  font-size: 2.5rem;
+  color: #27ae60;
+  margin-bottom: 5px;
+}
+
+/* Smooth Scrolling for the whole page */
+html {
+  scroll-behavior: smooth;
+}
+
+/* 1. Center the entire card on the screen */
+.home-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 60px 20px; /* Space from top/bottom sections */
+  background-color: #f9f9f9; 
+}
+
+/* 2. Style the card */
+.welcome-card {
+  background: white;
+  padding: 40px;
+  border-radius: 12px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  max-width: 700px;
+  width: 100%;
+}
+
+/* 3. Make buttons parallel (side-by-side) */
+.button-group {
+  display: flex;
+  flex-direction: row; /* Ensures items stay in a line */
+  justify-content: center;
+  align-items: center;
+  gap: 20px; /* Space between buttons and 'or' */
+  margin: 30px 0;
+}
+
+/* 4. Button Styles */
+.btn {
+  padding: 15px 30px;
+  font-size: 1rem;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: all 0.3s ease;
+  min-width: 180px;
+}
+
+.btn-citizen {
+  background-color: #28a745; /* Green */
+  color: white;
+}
+
+.btn-admin {
+  background-color: #003366; /* Your Portal Navy Blue */
+  color: white;
+}
+
+.btn:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+}
+
+/* 5. The 'or' text */
+.divider {
+  font-weight: bold;
+  color: #666;
+  text-transform: uppercase;
+  font-size: 0.9rem;
+}
+
+/* 6. Footer & Login Link Button */
+.footer-links {
+  margin-top: 20px;
+}
+
+.login-link {
+  background: none;
+  border: none;
+  color: #003366;
+  text-decoration: underline;
+  font-weight: bold;
+  cursor: pointer;
+  padding: 0;
+  font-size: 1rem;
+}
+
+.login-link:hover {
+  color: #0056b3;
+}

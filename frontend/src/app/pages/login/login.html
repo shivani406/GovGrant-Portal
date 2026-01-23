@@ -1,0 +1,24 @@
+<div class="selection-container">
+  <div class="selection-card">
+    <h2>Welcome Back</h2>
+    <p>Please select your login type to continue</p>
+
+    <div class="options-grid">
+      <div class="option-box citizen" (click)="goToLogin('citizen')">
+        <div class="icon">👥</div>
+        <h3>Citizen Login</h3>
+        <span>Access the portal as citizen</span>
+      </div>
+
+      <div class="option-box admin" (click)="goToLogin('admin')">
+        <div class="icon">🛡️</div>
+        <h3>Admin Login</h3>
+        <span>Access the portal as admin</span>
+      </div>
+    </div>
+
+    <div class="back-home">
+      <a routerLink="/">← Back to Home</a>
+    </div>
+  </div>
+</div>
