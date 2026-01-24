@@ -1,0 +1,127 @@
+/*.dashboard-container {
+  padding: 40px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.table-wrapper {
+  overflow-x: auto; /* Adds scrolling for mobile screens 
+  box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+  border-radius: 8px;
+}
+
+.grant-table {
+  width: 100%;
+  border-collapse: collapse; /* Removes gaps between cells 
+  background: white;
+  text-align: left;
+}
+
+.grant-table thead {
+  background-color: #003366; /* Matching your portal blue 
+  color: white;
+}
+
+.grant-table th, .grant-table td {
+  padding: 15px 20px;
+  border-bottom: 1px solid #eee;
+}
+
+.grant-table tbody tr:hover {
+  background-color: #f1f5f9; /* Subtle highlight on hover 
+}
+
+/* Apply Button Styling 
+.apply-btn {
+  background-color: #27ae60;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: background 0.2s;
+}
+
+.apply-btn:hover {
+  background-color: #1e8449;
+}*/
+/* Header Layout */
+.main-header {
+  display: flex;
+  justify-content: space-between; /* This pushes profile to the right */
+  align-items: center;
+  padding: 10px 40px; /* Adjust left/right padding to match your images */
+  background: white;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.logo-container {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.logo-img {
+  height: 50px; /* Fixed size to match your home page */
+  width: auto;
+}
+
+.portal-name {
+  margin: 0;
+  font-family: 'Times New Roman', serif;
+  font-size: 1.8rem;
+  color: #003366;
+}
+
+/* Profile Button Styling */
+.profile-btn {
+  background-color: #f1f5f9;
+  border: 1px solid #003366;
+  color: #003366;
+  padding: 8px 16px;
+  border-radius: 20px;
+  cursor: pointer;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: all 0.3s ease;
+}
+
+.profile-btn:hover {
+  background-color: #003366;
+  color: white;
+}
+
+/* Table Styling */
+.dashboard-container {
+  padding: 40px;
+}
+
+.grant-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+
+.grant-table th {
+  background-color: #003366;
+  color: white;
+  padding: 12px;
+  text-align: left;
+}
+
+.grant-table td {
+  padding: 12px;
+  border-bottom: 1px solid #ddd;
+}
+
+.apply-btn {
+  background-color: #27ae60;
+  color: white;
+  border: none;
+  padding: 8px 15px;
+  border-radius: 4px;
+  cursor: pointer;
+}

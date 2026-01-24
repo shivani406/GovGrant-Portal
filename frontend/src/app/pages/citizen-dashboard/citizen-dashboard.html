@@ -1,17 +1,10 @@
-<main>
-  <header style="display: flex; justify-content: space-between; align-items: center;">
-    <h1>Citizen Dashboard</h1>
-    <nav>
-      <button routerLink="/citizen-profile">View My Profile</button>
-    </nav>
-  </header>
+<!-- 
+<div class="dashboard-container">
+  <h2>Available Government Grants</h2>
+  <p>Browse and apply for the grants you are eligible for below.</p>
 
-  <hr>
-
-  <section>
-    <h2>Available Grants</h2>
-    
-    <table border="1" style="width: 100%; border-collapse: collapse;">
+  <div class="table-wrapper">
+    <table class="grant-table">
       <thead>
         <tr>
           <th>Grant ID</th>
@@ -21,25 +14,60 @@
         </tr>
       </thead>
       <tbody>
-        <tr>
-          <td>G-001</td>
-          <td><b>Education Fund</b></td>
-          <td>Scholarships for university students.</td>
-          <td><button>Apply</button></td>
-        </tr>
-        <tr>
-          <td>G-002</td>
-          <td><b>Small Business</b></td>
-          <td>Funding for local startups.</td>
-          <td><button>Apply</button></td>
-        </tr>
-        <tr>
-          <td>G-003</td>
-          <td><b>Healthcare</b></td>
-          <td>Medical support for seniors.</td>
-          <td><button>Apply</button></td>
+        <tr *ngFor="let grant of grants">
+          <td><strong>{{ grant.id }}</strong></td>
+          <td>{{ grant.title }}</td>
+          <td>{{ grant.description }}</td>
+          <td>
+            <button class="apply-btn" (click)="onApply(grant.id)">
+              Apply Now
+            </button>
+          </td>
         </tr>
       </tbody>
     </table>
+  </div>
+</div> -->
+<div class="dashboard-wrapper">
+  <header class="main-header">
+    <div class="logo-container">
+      <img src="data:image/png;base64,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" alt="Portal Logo" class="logo-img">
+      <h1 class="portal-name">Government Grant Portal</h1>
+    </div>
+    
+    <div class="header-right">
+      <button class="profile-btn" (click)="viewProfile()">
+        <span class="user-icon">👤</span> Profile
+      </button>
+    </div>
+  </header>
+
+  <section class="dashboard-container">
+    <h2>Available Government Grants</h2>
+    
+    <div class="table-wrapper">
+      <table class="grant-table">
+        <thead>
+          <tr>
+            <th>Grant ID</th>
+            <th>Grant Title</th>
+            <th>Description</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let grant of grants">
+            <td><strong>{{ grant.id }}</strong></td>
+            <td>{{ grant.title }}</td>
+            <td>{{ grant.description }}</td>
+            <td>
+              <button class="apply-btn" (click)="onApply(grant.id)">
+                Apply Now
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
   </section>
-</main>
+</div>
