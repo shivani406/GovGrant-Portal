@@ -67,8 +67,7 @@ CREATE TABLE Application_form_data (
 CREATE TABLE Application_status (
     application_id INT PRIMARY KEY, 
     app_status ENUM('pending', 'approved', 'rejected') DEFAULT 'pending',
-    reviewed_by INT,
-    review_remarks TEXT, 
+    reviewed_by INT, 
     updated_at DATE NOT NULL,
 
     FOREIGN KEY (application_id) REFERENCES Application_form_data(application_id) ON DELETE CASCADE,
