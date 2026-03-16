@@ -46,7 +46,7 @@ CREATE TABLE Application_form_data (
     grant_id INT NOT NULL,   
     applicant_name VARCHAR(100) NOT NULL,
     applicant_email VARCHAR(100) NOT NULL,
-    applicant_phone VARCHAR(15),
+    applicant_phone_number   VARCHAR(15),
     applicant_gender ENUM('male', 'female', 'other') NOT NULL,
     applicant_age INT,
     applicant_address TEXT NOT NULL,
@@ -68,7 +68,7 @@ CREATE TABLE Application_status (
     application_id INT PRIMARY KEY, 
     app_status ENUM('pending', 'approved', 'rejected') DEFAULT 'pending',
     reviewed_by INT, 
-    updated_at DATE NOT NULL,
+    reviewed_at DATE NOT NULL,
 
     FOREIGN KEY (application_id) REFERENCES Application_form_data(application_id) ON DELETE CASCADE,
     FOREIGN KEY (reviewed_by) REFERENCES Administration(admin_id) ON DELETE SET NULL
