@@ -14,7 +14,6 @@ interface Grant {
 })
 export class CitizenDashboard implements OnInit {
 
-  // This array represents data fetched from your database
   grants: Grant[] = [
     { id: 'G-101', title: 'Small Business Relief', description: 'Financial aid for local startups affected by the pandemic.' },
     { id: 'G-102', title: 'Higher Education Scholarship', description: 'Covers tuition for STEM students in underrepresented areas.' },
@@ -25,7 +24,7 @@ export class CitizenDashboard implements OnInit {
   constructor() { }
 
   ngOnInit(): void {
-    // This is where you would call a service to fetch real data
+    
   }
 
   onApply(grantId: string) {
@@ -35,6 +34,6 @@ export class CitizenDashboard implements OnInit {
   }
   viewProfile() {
   console.log("Navigating to user profile...");
-  // this.router.navigate(['/profile']);
+  //this.router.navigate(['/profile']);
 }
 }
