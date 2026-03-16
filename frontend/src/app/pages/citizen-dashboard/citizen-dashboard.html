@@ -1,33 +1,3 @@
-<!-- 
-<div class="dashboard-container">
-  <h2>Available Government Grants</h2>
-  <p>Browse and apply for the grants you are eligible for below.</p>
-
-  <div class="table-wrapper">
-    <table class="grant-table">
-      <thead>
-        <tr>
-          <th>Grant ID</th>
-          <th>Grant Title</th>
-          <th>Description</th>
-          <th>Action</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let grant of grants">
-          <td><strong>{{ grant.id }}</strong></td>
-          <td>{{ grant.title }}</td>
-          <td>{{ grant.description }}</td>
-          <td>
-            <button class="apply-btn" (click)="onApply(grant.id)">
-              Apply Now
-            </button>
-          </td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
-</div> -->
 <div class="dashboard-wrapper">
   <header class="main-header">
     <div class="logo-container">
@@ -37,8 +7,9 @@
     
     <div class="header-right">
       <button class="profile-btn" (click)="viewProfile()">
-        <span class="user-icon">👤</span> Profile
+           👤Profile 
       </button>
+
     </div>
   </header>
 

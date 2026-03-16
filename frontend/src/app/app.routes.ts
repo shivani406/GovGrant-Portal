@@ -6,7 +6,7 @@ import { CitizenLogin } from './pages/citizen-login/citizen-login';
 import { AdminLogin } from './pages/admin-login/admin-login';
 import { LoginSelection } from './pages/login/login';
 import { CitizenDashboard } from './pages/citizen-dashboard/citizen-dashboard';
-
+import { CitizenProfile } from './pages/citizen-dashboard/citizen-profile/citizen-profile';
 
 export const routes: Routes = [
   { path: '', component: Home },
@@ -15,6 +15,7 @@ export const routes: Routes = [
   { path: 'citizen-login', component: CitizenLogin },
   { path: 'admin-login', component: AdminLogin },
   { path: 'login', component: LoginSelection },
-  { path: 'citizen-dashboard' , component: CitizenDashboard}
+  { path: 'citizen-dashboard' , component: CitizenDashboard},
+  { path: 'citizen-profile' , component: CitizenProfile},
 ];
 
