@@ -1,1 +1,48 @@
-<p>admin-profile works!</p>
+<nav class="main-navbar">
+    <div class="nav-container">
+        <span class="nav-title">Government Grant Portal | Admin Profile</span>
+        <button class="back-btn" (click)="goBack()">← Back to Dashboard</button>
+    </div>
+</nav>
+
+<div class="profile-container">
+    <div class="profile-card">
+        <div class="user-info-section">
+            <div class="avatar-circle">MU</div>
+            <div class="user-text">
+                <h2>{{ adminDetails.name }}</h2>
+                <p class="role-tag">{{ adminDetails.role }}</p>
+            </div>
+        </div>
+
+        <div class="details-grid">
+            <div class="detail-item">
+                <label>Email Address</label>
+                <span>{{ adminDetails.email }}</span>
+            </div>
+            <div class="detail-item">
+                <label>Department</label>
+                <span>{{ adminDetails.department }}</span>
+            </div>
+            <div class="detail-item">
+                <label>Member Since</label>
+                <span>{{ adminDetails.joinedDate }}</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="stats-grid">
+        <div class="stat-card approved">
+            <h3>{{ stats.grantsApproved }}</h3>
+            <p>Grants Approved</p>
+        </div>
+        <div class="stat-card rejected">
+            <h3>{{ stats.grantsRejected }}</h3>
+            <p>Grants Rejected</p>
+        </div>
+        <div class="stat-card published">
+            <h3>{{ stats.grantsPublished }}</h3>
+            <p>Grants Published</p>
+        </div>
+    </div>
+</div>

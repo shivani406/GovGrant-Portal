@@ -60,14 +60,15 @@ export class AdminDashboard {
         );
     }
 
-    viewApp(id: string) {
-        console.log("Viewing application:", id);
-        // You can add navigation logic here later
-    }
-
     editGrant(id: string) {
         console.log("Editing grant with ID:", id);
         // Logic to open an edit form would go here
+    }
+
+    // Inside AdminDashboard class in admin-dashboard.ts
+    viewApp(id: string) {
+        console.log("Navigating to review for ID:", id);
+        this.router.navigate(['/review-application', id]);
     }
 
 }
