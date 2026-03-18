@@ -7,6 +7,9 @@ import { AdminLogin } from './pages/admin-login/admin-login';
 import { LoginSelection } from './pages/login/login';
 import { CitizenDashboard } from './pages/citizen-dashboard/citizen-dashboard';
 import { CitizenProfile } from './pages/citizen-dashboard/citizen-profile/citizen-profile';
+import { AdminDashboard } from './pages/admin-dashboard/admin-dashboard';
+import { AdminProfile } from './pages/admin-dashboard/admin-profile/admin-profile'; 
+import { AddGrant } from './pages/admin-dashboard/add-grant/add-grant';
 
 export const routes: Routes = [
   { path: '', component: Home },
@@ -17,5 +20,8 @@ export const routes: Routes = [
   { path: 'login', component: LoginSelection },
   { path: 'citizen-dashboard' , component: CitizenDashboard},
   { path: 'citizen-profile' , component: CitizenProfile},
+  { path: 'admin-dashboard' , component: AdminDashboard },
+  { path: 'admin-profile', component: AdminProfile },
+  { path: 'add-grant', component: AddGrant },
 ];
 
