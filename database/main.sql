@@ -60,7 +60,7 @@ CREATE TABLE Application_form_data (
     FOREIGN KEY (citizen_id) REFERENCES Citizen(citizen_id) ON DELETE CASCADE,
     FOREIGN KEY (grant_id) REFERENCES Grants(grant_id) ON DELETE CASCADE
 
-);
+ );
 
 -- 5. Application Status Table 
 
