@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router'; 
 
 // Define a structure for your Grant data
 interface Grant {
@@ -21,19 +22,17 @@ export class CitizenDashboard implements OnInit {
     { id: 'G-104', title: 'Art & Culture Grant', description: 'Support for local community murals and public galleries.' }
   ];
 
-  constructor() { }
+  constructor(private router: Router) { }
 
-  ngOnInit(): void {
-    
-  }
+  ngOnInit(): void { }
 
   onApply(grantId: string) {
     console.log('Applying for Grant ID:', grantId);
-    // Logic to open application form or navigate to apply page
     alert(`Redirecting to application for ${grantId}`);
   }
+
   viewProfile() {
-  console.log("Navigating to user profile...");
-  //this.router.navigate(['/profile']);
-}
+    console.log("Navigating to user profile...");
+    this.router.navigate(['/citizen-profile']); 
+  }
 }
