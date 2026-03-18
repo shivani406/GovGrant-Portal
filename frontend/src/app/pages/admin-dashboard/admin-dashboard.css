@@ -1,0 +1,147 @@
+/* --- Global Reset & Page Layout --- */
+.main-content {
+    padding: 40px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: #333;
+}
+
+/* --- Navbar Styling (Matching Image 1) --- */
+/* --- Navbar Container --- */
+.main-navbar {
+    background-color: #ffffff; /* Navy Blue */
+    padding: 10px 30px;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.nav-container {
+    display: flex;
+    justify-content: space-between; /* Pushes left and right sections apart */
+    align-items: center;           /* Vertically centers everything in the line */
+    max-width: 1400px;             /* Adjust based on your screen size preference */
+    margin: 0 auto;
+}
+
+/* --- Left Side Content --- */
+.nav-left {
+    display: flex;
+    align-items: center;
+    gap: 15px; /* Space between logo and text */
+}
+
+.nav-logo-img {
+    display: flex;
+    align-items: center;
+}
+
+.logo-img {
+    height: 45px; /* Controls the size of your logo */
+    width: auto;
+    display: block;
+}
+
+.nav-title {
+    color: #00274d;
+    font-size: 1.4rem;
+    font-weight: bold;
+    white-space: nowrap; /* Prevents title from wrapping to next line */
+}
+
+/* --- Right Side Content --- */
+.nav-right {
+    display: flex;
+    align-items: center;
+    gap: 20px; /* Space between Profile button and Logout link */
+}
+
+.profile-btn {
+    background-color: #00274d;
+    color: white;
+    border: 1px solid #00274d;
+    padding: 6px 16px;
+    border-radius: 20px;
+    font-weight: 600;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: 0.3s;
+}
+
+.profile-btn:hover {
+    background-color: #294b6c;
+}
+
+/* --- Header Sections --- */
+.dashboard-header {
+    margin-bottom: 40px;
+}
+
+.page-title {
+    font-size: 2rem;
+    color: #00274d;
+    border-left: 8px solid #00274d; /* Vertical bar from image */
+    padding-left: 15px;
+    margin-bottom: 5px;
+}
+
+.welcome-text {
+    color: #666;
+    font-size: 1rem;
+}
+
+/* --- Table Design (Matching Image 1) --- */
+.section-title-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.section-title {
+    font-size: 1.25rem;
+    color: #333;
+    font-weight: bold;
+}
+
+.portal-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+    border: 1px solid #ddd;
+}
+
+.portal-table thead th {
+    background-color: #00274d; /* Solid blue header bar */
+    color: white;
+    text-align: left;
+    padding: 12px 15px;
+    font-weight: 500;
+}
+
+.portal-table tbody td {
+    padding: 12px 15px;
+    border-bottom: 1px solid #eee;
+    background-color: white;
+}
+
+/* --- Action Links & Buttons --- */
+.action-btn-link {
+    background: none;
+    border: none;
+    color: #6a1b9a; /* Deep purple/blue link from image */
+    text-decoration: underline;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.btn-add {
+    background-color: #27ae60;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 4px;
+    font-weight: bold;
+    cursor: pointer;
+}
+

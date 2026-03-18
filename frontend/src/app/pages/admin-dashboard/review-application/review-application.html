@@ -15,55 +15,44 @@
     </div>
 </nav>
 
-<div class="main-content">
-    <div class="dashboard-header">
-        <h2 class="page-title">Admin Dashboard</h2>
-        <p class="welcome-text">Manage grants and review applications below.</p>
-    </div>
 
-    <div class="table-section">
-        <div class="section-title-container">
-            <h3 class="section-title">Available Government Grants</h3>
-            <button class="btn-add" (click)="addNewGrant()">+ Add Grant</button>
+<div class="form-container">
+    <header class="form-header">
+        <h2>Grant Application Form</h2>
+        <span class="app-id-tag"><strong>ID: {{ applicationId }}</strong></span>
+        <br><br>
+
+    </header>
+
+    <div class="form-grid">
+        <div class="form-group">
+            <label>Full Name</label>
+            <div class="data-field">{{ applicationData?.fullName }}</div>
         </div>
-        
-        <table class="portal-table">
-            <thead>
-                <tr>
-                    <th>Grant ID</th>
-                    <th>Grant Title</th>
-                    <th>Description</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr *ngFor="let grant of grants">
-                    <td>{{grant.id}}</td>
-                    <td>{{grant.title}}</td>
-                    <td>{{grant.description}}</td>
-                </tr>
-            </tbody>
-        </table>
+
+        <div class="form-group">
+            <label>Email Address</label>
+            <div class="data-field">{{ applicationData?.email }}</div>
+        </div>
+
+        <div class="form-group">
+            <label>Grant Applied For</label>
+            <div class="data-field">{{ applicationData?.grantType }}</div>
+        </div>
+
+        <div class="form-group full-width">
+            <label>Reason for Application</label>
+            <div class="data-field textarea-field">{{ applicationData?.reason }}</div>
+        </div>
     </div>
 
-    <div class="table-section" style="margin-top: 50px;">
-        <h3 class="section-title">Incoming Application Queue</h3>
-        <table class="portal-table">
-            <thead>
-                <tr>
-                    <th>App ID</th>
-                    <th>Citizen Name</th>
-                    <th>Action</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr *ngFor="let app of filteredApplications">
-                    <td>{{app.id}}</td>
-                    <td>{{app.citizenName}}</td>
-                    <td>
-                        <button class="action-btn-link" (click)="viewApp(app.id)">Review</button>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
+    <div class="admin-actions">
+    <button class="btn-approve" (click)="approveApplication()">
+        Approve Grant
+    </button>
+    
+    <button class="btn-reject" (click)="rejectApplication()">
+        Reject Application
+    </button>
+</div>
 </div>
