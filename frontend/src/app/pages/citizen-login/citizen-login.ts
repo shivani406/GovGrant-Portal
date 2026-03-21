@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
+import { GrantService } from '../../services/grant';
 
 @Component({
   selector: 'app-citizen-login',
@@ -14,26 +15,35 @@ export class CitizenLogin {
   loginForm: FormGroup;
   errorMessage: string = '';
 
-  constructor(private fb: FormBuilder, private router: Router) {
+  constructor(
+    private fb: FormBuilder, 
+    private router: Router,
+    private grantService: GrantService
+  ) {
     this.loginForm = this.fb.group({
-      email: ['', [Validators.required, Validators.email]],
-      password: ['', [Validators.required, Validators.minLength(6)]]
+      citizen_email: ['', [Validators.required, Validators.email]],
+      citizen_password: ['', [Validators.required, Validators.minLength(6)]]
     });
   }
 
   onLogin() {
     if (this.loginForm.valid) {
       const loginData = this.loginForm.value;
-      console.log('Attempting login with:', loginData);
-
-      // TODO: Replace this with an Actual Service Call to your Backend/Database
-      // Example logic:
-      if (loginData.email === 'test@citizen.com' && loginData.password === '123456') {
-        alert('Login Successful!');
-        this.router.navigate(['/citizen-dashboard']);
-      } else {
-        this.errorMessage = 'Invalid email or password. Please try again.';
-      }
+    
+      this.grantService.login(loginData).subscribe({
+        next: (response) => {
+          console.log('✅ Login Response:', response);
+        
+          // SAVE USER DATA TO STORAGE
+          localStorage.setItem('citizen_id', response.user.id);
+          localStorage.setItem('citizen_name', response.user.name);
+          this.router.navigate(['/citizen-dashboard']);
+        },
+        error: (err) => {
+          console.error('❌ Login Error:', err);
+          this.errorMessage = err.error.error || 'Login failed. Please try again.';
+        }
+      });
     }
   }
 }

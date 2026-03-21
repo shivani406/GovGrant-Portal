@@ -9,7 +9,7 @@ app.use(express.json());
 
 // --- API ROUTES ---
 
-// 1. Get all Grants (for Citizen Dashboard)
+// 1. Citizen Dashboard Route
 app.get('/api/grants', async (req, res) => {
     try {
         const [rows] = await db.query('SELECT * FROM Grants');
@@ -19,7 +19,7 @@ app.get('/api/grants', async (req, res) => {
     }
 });
 
-// 2. Get Citizen Details (for Citizen Profile)
+// 2. Citizen Profile Route
 app.get('/api/citizen/:id', async (req, res) => {
     try {
         const [rows] = await db.query('SELECT * FROM Citizen WHERE citizen_id = ?', [req.params.id]);
@@ -30,7 +30,7 @@ app.get('/api/citizen/:id', async (req, res) => {
     }
 });
 
-// 3. Submit a Grant Application
+// 3. Application Form Route
 app.post('/api/applications', async (req, res) => {
     try {
         const data = req.body;
@@ -97,6 +97,43 @@ app.post('/api/signup', async (req, res) => {
         } else {
             res.status(500).json({ error: err.message });
         }
+    }
+});
+
+// Citizen Login Route
+app.post('/api/login', async (req, res) => {
+    try {
+        const { citizen_email, citizen_password } = req.body;
+
+        // 1. Search for the user by email
+        const query = `SELECT * FROM Citizen WHERE citizen_email = ?`;
+        const [rows] = await db.query(query, [citizen_email]);
+
+        if (rows.length === 0) {
+            return res.status(401).json({ error: "User not found!" });
+        }
+
+        const user = rows[0];
+
+        // 2. Check password (Direct comparison for now)
+        if (user.citizen_password === citizen_password) {
+            console.log(`✅ Login successful for: ${user.citizen_name}`);
+            
+            // Send back the user details so Angular can save them
+            res.status(200).json({
+                message: "Login successful",
+                user: {
+                    id: user.citizen_id,
+                    name: user.citizen_name,
+                    email: user.citizen_email
+                }
+            });
+        } else {
+            res.status(401).json({ error: "Invalid password!" });
+        }
+    } catch (err) {
+        console.error("❌ Login Error:", err.message);
+        res.status(500).json({ error: "Internal Server Error" });
     }
 });
 

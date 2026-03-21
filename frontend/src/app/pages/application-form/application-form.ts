@@ -44,11 +44,8 @@ export class ApplicationForm implements OnInit {
     }
 
     const savedId = localStorage.getItem('citizen_id');
-    if (savedId) {
-      this.formData.citizen_id = +savedId;
-    } else {
-      // If no one is logged in, use the first ID from your new table as a fallback
-      this.formData.citizen_id = 101; 
+      if (savedId) {
+        this.formData.citizen_id = +savedId; // It now pulls the actual logged-in ID!
     }
   }
 

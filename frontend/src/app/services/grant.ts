@@ -24,4 +24,8 @@ export class GrantService {
   return this.http.post('http://localhost:3000/api/applications', applicationData);
   }
 
+  login(credentials: any): Observable<any> {
+  return this.http.post('http://localhost:3000/api/login', credentials);
+  }
+
 }
