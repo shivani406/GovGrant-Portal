@@ -28,11 +28,11 @@
         </thead>
         <tbody>
           <tr *ngFor="let grant of grants">
-            <td><strong>{{ grant.id }}</strong></td>
-            <td>{{ grant.title }}</td>
-            <td>{{ grant.description }}</td>
+            <td><strong>{{ grant.grant_id }}</strong></td>
+            <td>{{ grant.grant_title }}</td>
+            <td>{{ grant.grant_desc }}</td>
             <td>
-              <button class="apply-btn" (click)="onApply(grant.id)">
+              <button class="apply-btn" (click)="onApply(grant.grant_id)">
                 Apply Now
               </button>
             </td>

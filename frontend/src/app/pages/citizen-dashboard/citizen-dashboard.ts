@@ -1,38 +1,53 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
+import { GrantService } from '../../services/grant';
 import { Router } from '@angular/router'; 
-
-// Define a structure for your Grant data
-interface Grant {
-  id: string;
-  title: string;
-  description: string;
-}
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-citizen-dashboard',
+  standalone: true,
+  imports: [CommonModule],
   templateUrl: './citizen-dashboard.html',
   styleUrls: ['./citizen-dashboard.css']
 })
 export class CitizenDashboard implements OnInit {
+  grants: any[] = [];
 
-  grants: Grant[] = [
-    { id: 'G-101', title: 'Small Business Relief', description: 'Financial aid for local startups affected by the pandemic.' },
-    { id: 'G-102', title: 'Higher Education Scholarship', description: 'Covers tuition for STEM students in underrepresented areas.' },
-    { id: 'G-103', title: 'Sustainable Farming Grant', description: 'Funds for implementing eco-friendly irrigation systems.' },
-    { id: 'G-104', title: 'Art & Culture Grant', description: 'Support for local community murals and public galleries.' }
-  ];
+  constructor(
+    private router: Router,
+    private grantService: GrantService,
+    private cdr: ChangeDetectorRef 
+  ) { } // Added missing closing brace here
 
-  constructor(private router: Router) { }
+  ngOnInit(): void {
+    console.log("Dashboard Initialized - Fetching Data...");
+    this.fetchGrants();
+  }
 
-  ngOnInit(): void { }
+  fetchGrants() {
+    this.grantService.getGrants().subscribe({
+      next: (data: any[]) => {
+        // We use the spread operator to ensure a fresh reference for the array
+        this.grants = [...data]; 
+        
+        console.log('Grants loaded from SQL:', this.grants);
+        
+        // This forces Angular to re-render the HTML immediately
+        this.cdr.detectChanges();
+      },
+      error: (err: any) => {
+        console.error('Error fetching grants from backend:', err);
+      }
+    });
+  }
 
-  onApply(grantId: string) {
+  onApply(grantId: number) {
     console.log('Applying for Grant ID:', grantId);
-    alert(`Redirecting to application for ${grantId}`);
+    // This will navigate to your application form
+    this.router.navigate(['/apply', grantId]);
   }
 
   viewProfile() {
-    console.log("Navigating to user profile...");
     this.router.navigate(['/citizen-profile']); 
   }
 }

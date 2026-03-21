@@ -70,3 +70,4 @@ INSERT INTO Application_form_data (
 /* 48 */ (48,48,8, 'Citizen 48','citizen48@example.com','9000000048','other',  37, '100 Street 48, City8',49000,'Artist',       'driving license','VERIF00048','2024-04-17', 0),
 /* 49 */ (49,49,9, 'Citizen 49','citizen49@example.com','9000000049','male',   38, '100 Street 49, City9',49500,'Lawyer',       'aadhar',        'VERIF00049','2024-04-18', 0),
 /* 50 */ (50,50,10,'Citizen 50','citizen50@example.com','9000000050','female', 39, '100 Street 50, City10',50000,'Unemployed','pan',           'VERIF00050','2024-04-19', 1);
+

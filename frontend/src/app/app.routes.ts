@@ -11,6 +11,7 @@ import { AdminDashboard } from './pages/admin-dashboard/admin-dashboard';
 import { AdminProfile } from './pages/admin-dashboard/admin-profile/admin-profile'; 
 import { AddGrant } from './pages/admin-dashboard/add-grant/add-grant';
 import { ReviewApplication } from './pages/admin-dashboard/review-application/review-application';
+import { ApplicationForm } from './pages/application-form/application-form';
 
 export const routes: Routes = [
   { path: '', component: Home },
@@ -25,5 +26,6 @@ export const routes: Routes = [
   { path: 'admin-profile', component: AdminProfile },
   { path: 'add-grant', component: AddGrant },
   { path: 'review-application/:id', component: ReviewApplication },
+  { path: 'apply/:id', component: ApplicationForm },
 ];
 
