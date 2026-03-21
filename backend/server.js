@@ -76,13 +76,20 @@ app.post('/api/applications', async (req, res) => {
 // Citizen Signup Route
 app.post('/api/signup', async (req, res) => {
     try {
-        const { full_name, email, password, phone_number } = req.body;
+        const { citizen_name, citizen_email, citizen_password, citizen_phone_number } = req.body;
         
-        const query = `INSERT INTO Citizen (full_name, email, password, phone_number) VALUES (?, ?, ?, ?)`;
-        const [result] = await db.query(query, [full_name, email, password, phone_number]);
+        // Fix: Use the actual column names from your database screenshot
+        const query = `INSERT INTO Citizen (citizen_name, citizen_email, citizen_password, citizen_phone_number) VALUES (?, ?, ?, ?)`;
+        
+        const [result] = await db.query(query, [citizen_name, citizen_email, citizen_password, citizen_phone_number]);
+        
+        console.log("✅ Rows inserted:", result.affectedRows);
         
         res.status(201).json({ message: "User registered successfully!", userId: result.insertId });
     } catch (err) {
+        // Log the error so you can see it in the terminal!
+        console.error("❌ Signup Error:", err.message); 
+        
         if (err.code === 'ER_DUP_ENTRY') {
             res.status(400).json({ error: "Email already exists!" });
         } else {

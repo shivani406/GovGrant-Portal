@@ -12,7 +12,6 @@ CREATE TABLE Citizen (
     citizen_email VARCHAR(100) UNIQUE NOT NULL,
     citizen_password VARCHAR(255) NOT NULL,
     citizen_phone_number VARCHAR(15) UNIQUE,
-    citizen_annual_income INT
 );
 
 -- 2. Administration Table
