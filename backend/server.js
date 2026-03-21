@@ -194,6 +194,45 @@ app.post('/api/admin/login', async (req, res) => {
     }
 });
 
+//Admin Dashboard Route (grants)
+// Add this to server.js
+app.get('/api/admin/grants', async (req, res) => {
+    console.log("--- New Request: Fetching Grants ---");
+    try {
+        // Change 'grants' to your ACTUAL table name (e.g., 'grants_table' or 'available_grants')
+        const [rows] = await db.query('SELECT * FROM grants'); 
+        console.log("✅ Grants found:", rows.length);
+        res.json(rows);
+    } catch (err) {
+        console.error("❌ SQL Error in Grants:", err.message);
+        res.status(500).json({ error: err.message });
+    }
+});
+
+//Admin Dashboard Route (application)
+app.get('/api/admin/applications', async (req, res) => {
+    console.log("--- New Request: Fetching Applications ---");
+    try {
+        // Change "Application_form_data" to your EXACT table name from MySQL
+        const query = 'SELECT * FROM Application_form_data'; 
+        
+        const [rows] = await db.query(query);
+        
+        console.log("✅ Success! Found rows:", rows.length);
+        res.status(200).json(rows);
+    } catch (err) {
+        // THIS WILL SHOW THE REAL ERROR IN YOUR BLACK TERMINAL
+        console.error("❌ DATABASE ERROR DETECTED:");
+        console.error("Code:", err.code);
+        console.error("Message:", err.message);
+        
+        res.status(500).json({ 
+            error: "Database failure", 
+            details: err.message 
+        });
+    }
+});
+
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
     console.log(`✅ Backend Server running on http://localhost:${PORT}`);

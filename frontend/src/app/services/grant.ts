@@ -40,4 +40,12 @@ export class GrantService {
   return this.http.post('http://localhost:3000/api/admin/login', credentials);
   }
 
+  getAllGrants(): Observable<any[]> {
+  return this.http.get<any[]>('http://localhost:3000/api/admin/grants');
+  }
+
+  getAllApplications(): Observable<any[]> {
+    return this.http.get<any[]>('http://localhost:3000/api/admin/applications');
+  }
+
 }

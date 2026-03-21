@@ -37,9 +37,9 @@
             </thead>
             <tbody>
                 <tr *ngFor="let grant of grants">
-                    <td>{{grant.id}}</td>
-                    <td>{{grant.title}}</td>
-                    <td>{{grant.description}}</td>
+                    <td>{{grant.grant_id}}</td>
+                    <td>{{grant.grant_title}}</td>
+                    <td>{{grant.grant_desc}}</td>
                 </tr>
             </tbody>
         </table>
@@ -54,13 +54,16 @@
                     <th>Citizen Name</th>
                     <th>Action</th>
                 </tr>
+                <tr *ngIf="applications.length === 0">
+                <td colspan="3" style="text-align: center;">No applications in the queue.</td>
+                </tr>
             </thead>
             <tbody>
                 <tr *ngFor="let app of filteredApplications">
-                    <td>{{app.id}}</td>
-                    <td>{{app.citizenName}}</td>
+                    <td>{{app.application_id}}</td>
+                    <td>{{app.applicant_name}}</td>
                     <td>
-                        <button class="action-btn-link" (click)="viewApp(app.id)">Review</button>
+                        <button class="action-btn-link" (click)="viewApp(app.applicaiton_id)">Review</button>
                     </td>
                 </tr>
             </tbody>
