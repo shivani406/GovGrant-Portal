@@ -20,12 +20,28 @@ app.get('/api/grants', async (req, res) => {
 });
 
 // 2. Citizen Profile Route
-app.get('/api/citizen/:id', async (req, res) => {
+app.get('/api/citizen-profile/:id', async (req, res) => {
     try {
-        const [rows] = await db.query('SELECT * FROM Citizen WHERE citizen_id = ?', [req.params.id]);
-        if (rows.length === 0) return res.status(404).send('Citizen not found');
-        res.json(rows[0]);
+        const citizenId = req.params.id;
+
+        // 1. Get Citizen Basic Info
+        const [userRows] = await db.query('SELECT citizen_id, citizen_name, citizen_email, citizen_phone_number FROM citizen WHERE citizen_id = ?', [citizenId]);
+        
+        if (userRows.length === 0) return res.status(404).json({ error: "User not found" });
+
+        // 2. Get their Applications (Joined with Grants table to get the Grant Name)
+        const [appRows] = await db.query(`
+            SELECT a.*, g.grant_title 
+            FROM application_form_data a
+            JOIN grants g ON a.grant_id = g.grant_id
+            WHERE a.citizen_id = ?`, [citizenId]);
+
+        res.json({
+            profile: userRows[0],
+            applications: appRows
+        });
     } catch (err) {
+        console.error("❌ Profile Fetch Error:", err.message);
         res.status(500).json({ error: err.message });
     }
 });

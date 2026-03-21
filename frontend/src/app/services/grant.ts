@@ -28,4 +28,8 @@ export class GrantService {
   return this.http.post('http://localhost:3000/api/login', credentials);
   }
 
+  getCitizenProfile(id: string): Observable<any> {
+  return this.http.get(`http://localhost:3000/api/citizen-profile/${id}`);
+  }
+
 }

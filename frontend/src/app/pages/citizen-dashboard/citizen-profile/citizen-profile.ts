@@ -1,5 +1,6 @@
-import { Component } from '@angular/core';
+import { Component , OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { GrantService } from '../../../services/grant';
 
 @Component({
   selector: 'app-citizen-profile',
@@ -8,20 +9,42 @@ import { CommonModule } from '@angular/common';
   templateUrl: './citizen-profile.html',
   styleUrls: ['./citizen-profile.css']
 })
-export class CitizenProfile {
+
+export class CitizenProfile implements OnInit {
   
-  citizen: any = {
-    id: '',
-    name: '',
-    phone: '',
-    grants: [] 
-  };
+  citizen: any = null;
+
+  constructor(private grantService: GrantService) {}
+
+  ngOnInit(): void {
+    // 1. Get the ID we saved in Login
+    const loggedInId = localStorage.getItem('citizen_id');
+
+    if (loggedInId) {
+      // 2. Fetch the data from MySQL
+      this.grantService.getCitizenProfile(loggedInId).subscribe({
+        next: (data) => {
+          this.citizen = {
+            id: data.profile.citizen_id,
+            name: data.profile.citizen_name,
+            email: data.profile.citizen_email,
+            phone: data.profile.citizen_phone_number,
+            applications: data.applications // Array of their submitted forms
+          };
+          console.log("✅ Profile Loaded:", this.citizen);
+        },
+        error: (err) => console.error("❌ Could not load profile", err)
+      });
+    }
+  }
 
   getStatusClass(status: string) {
+    // Note: If you don't have a 'status' column yet, it will default to 'Applied'
+    const s = status || 'Applied'; 
     return {
-      'approved': status === 'Approved',
-      'applied': status === 'Applied',
-      'rejected': status === 'Rejected'
+      'approved': s === 'Approved',
+      'applied': s === 'Applied',
+      'rejected': s === 'Rejected'
     };
   }
 }

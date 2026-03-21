@@ -12,9 +12,9 @@
 
   <div class="content-area">
     <div class="info-card">
-      <p><strong>Citizen Id:</strong> {{ citizen.id }}</p>
-      <p><strong>Full Name:</strong> {{ citizen.name }}</p>
-      <p><strong>Phone Number:</strong> {{ citizen.phone }}</p>
+      <p><strong>Citizen Id:</strong> {{ citizen?.id }}</p>
+      <p><strong>Full Name:</strong> {{ citizen?.name }}</p>
+      <p><strong>Phone Number:</strong> {{ citizen?.phone }}</p>
     </div>
 
     <div class="table-section">
@@ -28,12 +28,12 @@
           </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let g of citizen.grants">
-            <td>{{ g.grantId }}</td>
-            <td>{{ g.grantTitle }}</td>
+          <tr *ngFor="let g of citizen?.applications">
+            <td>{{ g.grant_id }}</td>
+            <td>{{ g.grant_title }}</td>
             <td [ngClass]="getStatusClass(g.status)">{{ g.status }}</td>
           </tr>
-          <tr *ngIf="citizen.grants.length === 0">
+          <tr *ngIf="citizen?.applications?.length === 0">
             <td colspan="3" class="empty-row">No grant records found in database.</td>
           </tr>
         </tbody>
