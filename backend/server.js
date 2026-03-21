@@ -172,6 +172,28 @@ app.post('/api/admin/signup', async (req, res) => {
     }
 });
 
+//Admin Login Route
+app.post('/api/admin/login', async (req, res) => {
+    try {
+        const { admin_email, admin_password } = req.body;
+        const query = `SELECT * FROM administration WHERE admin_email = ? AND admin_password = ?`;
+        const [rows] = await db.query(query, [admin_email, admin_password]);
+
+        if (rows.length > 0) {
+            const admin = rows[0];
+            res.status(200).json({
+                message: "Login successful",
+                admin_id: admin.admin_id,
+                admin_name: admin.admin_name
+            });
+        } else {
+            res.status(401).json({ message: "Invalid email or password" });
+        }
+    } catch (err) {
+        res.status(500).json({ message: err.message });
+    }
+});
+
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
     console.log(`✅ Backend Server running on http://localhost:${PORT}`);

@@ -36,4 +36,8 @@ export class GrantService {
   return this.http.post('http://localhost:3000/api/admin/signup', adminData);
   }
 
+  adminLogin(credentials: any): Observable<any> {
+  return this.http.post('http://localhost:3000/api/admin/login', credentials);
+  }
+
 }
