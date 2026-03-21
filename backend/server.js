@@ -153,6 +153,25 @@ app.post('/api/login', async (req, res) => {
     }
 });
 
+//Admin Signup Route
+app.post('/api/admin/signup', async (req, res) => {
+    try {
+        const { admin_name, admin_email, admin_phone_number, admin_password } = req.body;
+
+        const query = `INSERT INTO administration (admin_name, admin_email, admin_phone_number, admin_password) VALUES (?, ?, ?, ?)`;
+        
+        await db.query(query, [admin_name, admin_email, admin_phone_number, admin_password]);
+        
+        res.status(201).json({ message: "Admin registered successfully" });
+    } catch (err) {
+        if (err.code === 'ER_DUP_ENTRY') {
+            res.status(400).json({ message: "Email already registered" });
+        } else {
+            res.status(500).json({ message: err.message });
+        }
+    }
+});
+
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
     console.log(`✅ Backend Server running on http://localhost:${PORT}`);
