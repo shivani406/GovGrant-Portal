@@ -58,7 +58,7 @@ app.post('/api/applications', async (req, res) => {
             data.applicant_verification_type, 
             data.applicant_verification_number, 
             data.applied_at, 
-            data.applicant_disability_status
+            data.applicant_disability_status ? 1 : 0  //applicant_disability_status is a check box
         ];
 
         const [result] = await db.query(query, values);
@@ -69,6 +69,8 @@ app.post('/api/applications', async (req, res) => {
         });
     } catch (err) {
         console.error("❌ Database Error:", err.message);
+        console.log("Full Data Received:", req.body); // Check if data is missing
+        console.error("SQL ERROR DETAILS:", err.message);
         res.status(500).json({ error: "Failed to save application. Details: " + err.message });
     }
 });
@@ -84,7 +86,7 @@ app.post('/api/signup', async (req, res) => {
         const [result] = await db.query(query, [citizen_name, citizen_email, citizen_password, citizen_phone_number]);
         
         console.log("✅ Rows inserted:", result.affectedRows);
-        
+
         res.status(201).json({ message: "User registered successfully!", userId: result.insertId });
     } catch (err) {
         // Log the error so you can see it in the terminal!
