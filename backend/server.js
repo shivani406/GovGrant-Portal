@@ -195,11 +195,10 @@ app.post('/api/admin/login', async (req, res) => {
 });
 
 //Admin Dashboard Route (grants)
-// Add this to server.js
+
 app.get('/api/admin/grants', async (req, res) => {
-    console.log("--- New Request: Fetching Grants ---");
+   
     try {
-        // Change 'grants' to your ACTUAL table name (e.g., 'grants_table' or 'available_grants')
         const [rows] = await db.query('SELECT * FROM grants'); 
         console.log("✅ Grants found:", rows.length);
         res.json(rows);
@@ -211,17 +210,17 @@ app.get('/api/admin/grants', async (req, res) => {
 
 //Admin Dashboard Route (application)
 app.get('/api/admin/applications', async (req, res) => {
-    console.log("--- New Request: Fetching Applications ---");
+   
     try {
-        // Change "Application_form_data" to your EXACT table name from MySQL
-        const query = 'SELECT * FROM Application_form_data'; 
+        
+        const query = 'SELECT * FROM application_form_data'; 
         
         const [rows] = await db.query(query);
         
         console.log("✅ Success! Found rows:", rows.length);
         res.status(200).json(rows);
     } catch (err) {
-        // THIS WILL SHOW THE REAL ERROR IN YOUR BLACK TERMINAL
+        
         console.error("❌ DATABASE ERROR DETECTED:");
         console.error("Code:", err.code);
         console.error("Message:", err.message);
@@ -230,6 +229,33 @@ app.get('/api/admin/applications', async (req, res) => {
             error: "Database failure", 
             details: err.message 
         });
+    }
+});
+
+//Add grant 
+app.post('/api/admin/grants', async (req, res) => {
+    const { 
+        grant_title, grant_desc, grant_amount, 
+        max_income_limit, department, created_at, 
+        application_deadline, created_by 
+    } = req.body;
+
+    try {
+        const query = `
+            INSERT INTO grants 
+            (grant_title, grant_desc, grant_amount, max_income_limit, department, created_at, application_deadline, created_by) 
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?)`;
+
+        const [result] = await db.query(query, [
+            grant_title, grant_desc, grant_amount, 
+            max_income_limit, department, created_at, 
+            application_deadline, created_by
+        ]);
+        
+        res.status(201).json({ message: "Success", id: result.insertId });
+    } catch (err) {
+        console.error("❌ SQL Error details:", err.message);
+        res.status(500).json({ error: err.message });
     }
 });
 

@@ -27,22 +27,23 @@
             <button class="btn-add" (click)="addNewGrant()">+ Add Grant</button>
         </div>
         
-        <table class="portal-table">
-            <thead>
-                <tr>
-                    <th>Grant ID</th>
-                    <th>Grant Title</th>
-                    <th>Description</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr *ngFor="let grant of grants">
-                    <td>{{grant.grant_id}}</td>
-                    <td>{{grant.grant_title}}</td>
-                    <td>{{grant.grant_desc}}</td>
-                </tr>
-            </tbody>
-        </table>
+    <div class = "table-container">
+            <table class="portal-table">
+                <thead>
+                    <tr>
+                        <th>Grant ID</th>
+                        <th>Grant Title</th>
+                        <th>Description</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let grant of grants; let i = index">
+                        <td>{{ i + 1 }}</td> <td>{{ grant?.grant_title || 'No Title' }}</td>
+                        <td>{{ grant?.grant_desc || 'No Description' }}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
     </div>
 
     <div class="table-section" style="margin-top: 50px;">
@@ -63,7 +64,7 @@
                     <td>{{app.application_id}}</td>
                     <td>{{app.applicant_name}}</td>
                     <td>
-                        <button class="action-btn-link" (click)="viewApp(app.applicaiton_id)">Review</button>
+                        <button class="action-btn-link" (click)="viewApp(app.application_id)">Review</button>
                     </td>
                 </tr>
             </tbody>

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core'; // Added OnInit
+import { Component, OnInit , ChangeDetectorRef } from '@angular/core'; // Added OnInit
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { GrantService } from '../../services/grant';
@@ -18,7 +18,8 @@ export class AdminDashboard implements OnInit { // 1. Implement OnInit
 
   constructor(
     private router: Router, 
-    private grantService: GrantService // 2. Inject your service
+    private grantService: GrantService,
+    private cdr: ChangeDetectorRef
   ) {}
 
   // 3. This runs automatically when the component loads
@@ -29,8 +30,11 @@ export class AdminDashboard implements OnInit { // 1. Implement OnInit
   loadData() {
     // Fetch Grants from MySQL
     this.grantService.getAllGrants().subscribe({
-      next: (data) => {
-        this.grants = data;
+      next: (data:any) => {
+        
+        this.grants = [...data];
+
+        this.cdr.detectChanges();
       },
       error: (err) => console.error("Error fetching grants:", err)
     });
@@ -38,8 +42,12 @@ export class AdminDashboard implements OnInit { // 1. Implement OnInit
     // Fetch Incoming Applications from MySQL
     this.grantService.getAllApplications().subscribe({
       next: (data) => {
-        this.applications = data;
-        this.filteredApplications = data; // Set the search list too
+        this.applications = [...data];
+        this.filteredApplications = [...data];
+
+        this.filteredApplications = [...this.applications];
+
+        this.cdr.detectChanges();
       },
       error: (err) => console.error("Error fetching applications:", err)
     });
@@ -63,8 +71,7 @@ export class AdminDashboard implements OnInit { // 1. Implement OnInit
   searchCitizen(event: any) {
     const query = event.target.value.toLowerCase();
     this.filteredApplications = this.applications.filter(app => 
-      // Adjust these keys (citizen_name) to match your DB column names
-      app.citizen_name?.toLowerCase().includes(query) || 
+      app.applicant_name?.toLowerCase().includes(query) || 
       app.application_id?.toString().includes(query)
     );
   }

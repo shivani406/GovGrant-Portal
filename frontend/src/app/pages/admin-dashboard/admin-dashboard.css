@@ -90,6 +90,14 @@
     font-size: 1rem;
 }
 
+.table-container{
+    max-height: 400px; /* Adjust this height as per your preference */
+    overflow-y: auto;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+}
+
+
 /* --- Table Design (Matching Image 1) --- */
 .section-title-container {
     display: flex;
