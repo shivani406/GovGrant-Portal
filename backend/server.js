@@ -200,7 +200,7 @@ app.get('/api/admin/grants', async (req, res) => {
    
     try {
         const [rows] = await db.query('SELECT * FROM grants'); 
-        console.log("✅ Grants found:", rows.length);
+    
         res.json(rows);
     } catch (err) {
         console.error("❌ SQL Error in Grants:", err.message);
@@ -217,7 +217,7 @@ app.get('/api/admin/applications', async (req, res) => {
         
         const [rows] = await db.query(query);
         
-        console.log("✅ Success! Found rows:", rows.length);
+        
         res.status(200).json(rows);
     } catch (err) {
         
@@ -269,6 +269,43 @@ app.put('/api/applications/:id/status', (req, res) => {
         if (err) return res.status(500).send(err);
         res.send({ message: "Status updated successfully" });
     });
+});
+
+// Admin Profile Route
+// Admin Profile Route - FIXED VERSION
+app.get('/api/administration/:id', async (req, res) => {
+    try {
+        const adminId = req.params.id;
+        console.log("Backend received request for Admin ID:", adminId);
+
+        // Using [rows] because your db configuration uses Promises
+        const [rows] = await db.query("SELECT * FROM administration WHERE admin_id = ?", [adminId]);
+
+        if (rows.length > 0) {
+            console.log("Data found, sending to frontend:", rows[0]);
+            res.json(rows[0]);
+        } else {
+            console.log("No admin found for ID:", adminId);
+            res.status(404).json({ message: "Admin not found" });
+        }
+    } catch (err) {
+        console.error("Database Error:", err.message);
+        res.status(500).json({ error: "Database failure", details: err.message });
+    }
+});
+
+// Get count of grants published by a specific admin
+app.get('/api/admin/grants/count/:id', async (req, res) => {
+    try {
+        const adminId = req.params.id;
+        const [rows] = await db.query(
+            "SELECT COUNT(*) as total FROM grants WHERE created_by = ?", 
+            [adminId]
+        );
+        res.json({ count: rows[0].total });
+    } catch (err) {
+        res.status(500).json({ error: err.message });
+    }
 });
 
 const PORT = process.env.PORT || 3000;

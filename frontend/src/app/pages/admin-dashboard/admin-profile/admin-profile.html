@@ -18,23 +18,18 @@
         <div class="user-info-section">
             <div class="avatar-circle">MU</div>
             <div class="user-text">
-                <h2>{{ adminDetails.name }}</h2>
-                <p class="role-tag">{{ adminDetails.role }}</p>
+                <h2>{{ adminDetails?.admin_name }}</h2>
             </div>
         </div>
 
         <div class="details-grid">
             <div class="detail-item">
                 <label>Email Address</label>
-                <span>{{ adminDetails.email }}</span>
+                <span>{{ adminDetails?.admin_email }}</span>
             </div>
             <div class="detail-item">
-                <label>Department</label>
-                <span>{{ adminDetails.department }}</span>
-            </div>
-            <div class="detail-item">
-                <label>Member Since</label>
-                <span>{{ adminDetails.joinedDate }}</span>
+                <label>Phone Number</label>
+                <span>{{ adminDetails?.admin_phone_number }}</span>
             </div>
         </div>
     </div>
