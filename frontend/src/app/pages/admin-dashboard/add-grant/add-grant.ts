@@ -29,27 +29,40 @@ export class AddGrant {
 
   
 submitGrant() {
-    if (this.newGrant.title && this.newGrant.description && this.newGrant.deadline) {
-      const grantData = {
-        grant_title: this.newGrant.title,
-        grant_desc: this.newGrant.description,
-        grant_amount: this.newGrant.amount,
-        max_income_limit: this.newGrant.income_limit,
-        department: this.newGrant.department,
-        application_deadline: this.newGrant.deadline,
-        created_at: new Date().toISOString().split('T')[0], // YYYY-MM-DD
-        created_by: 1 
-      };
+    // 1. Get the real ID from the browser's storage
+    const loggedInAdminId = localStorage.getItem('admin_id');
 
-      this.grantService.addGrant(grantData).subscribe({
-        next: (response) => {
-          alert("Grant Published!");
-          this.router.navigate(['/admin-dashboard']);
-        },
-        error: (err) => console.error("Error:", err)
-      });
+    if (this.newGrant.title && this.newGrant.description && this.newGrant.deadline) {
+        const grantData = {
+            grant_title: this.newGrant.title,
+            grant_desc: this.newGrant.description,
+            grant_amount: this.newGrant.amount,
+            max_income_limit: this.newGrant.income_limit,
+            department: this.newGrant.department,
+            application_deadline: this.newGrant.deadline,
+            created_at: new Date().toISOString().split('T')[0],
+            
+            // 2. USE THE DYNAMIC ID HERE
+            // If the ID is missing, we use 1 as a backup (but it should be 16)
+            created_by: loggedInAdminId ? Number(loggedInAdminId) : 1 
+        };
+
+        console.log("Publishing Grant as Admin ID:", grantData.created_by);
+
+        this.grantService.addGrant(grantData).subscribe({
+            next: (response) => {
+                alert("Grant Published successfully!");
+                this.router.navigate(['/admin-dashboard']);
+            },
+            error: (err) => {
+                console.error("Submission Error:", err);
+                alert("Failed to publish grant.");
+            }
+        });
+    } else {
+        alert("Please fill in all required fields.");
     }
-  }
+}
 
 
   goToAdminProfile() {

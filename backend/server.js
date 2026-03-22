@@ -202,7 +202,6 @@ app.post('/api/admin/login', async (req, res) => {
 });
 
 //Admin Dashboard Route (grants)
-
 app.get('/api/admin/grants', async (req, res) => {
    
     try {
@@ -217,21 +216,20 @@ app.get('/api/admin/grants', async (req, res) => {
 
 //Admin Dashboard Route (application)
 app.get('/api/admin/applications', async (req, res) => {
-   
     try {
-        
-        const query = 'SELECT * FROM application_form_data'; 
+        // This query joins the form data with the status table
+        // so we can actually see if it was 'approved' or 'rejected'
+        const query = `
+            SELECT 
+                a.*, 
+                COALESCE(s.app_status, 'pending') AS application_status 
+            FROM application_form_data a
+            LEFT JOIN Application_status s ON a.application_id = s.application_id`; 
         
         const [rows] = await db.query(query);
-        
-        
         res.status(200).json(rows);
     } catch (err) {
-        
-        console.error("❌ DATABASE ERROR DETECTED:");
-        console.error("Code:", err.code);
-        console.error("Message:", err.message);
-        
+        console.error("❌ Stats Fetch Error:", err.message);
         res.status(500).json({ 
             error: "Database failure", 
             details: err.message 

@@ -363,3 +363,9 @@ INSERT INTO Application_status (application_id, app_status, reviewed_by, reviewe
 
 -- This removes the UNIQUE restriction from the verification number
 ALTER TABLE Application_form_data DROP INDEX applicant_verification_number;
+
+SELECT admin_id, admin_name FROM administration;
+SELECT count(*) as total FROM grants WHERE created_by = (SELECT admin_id FROM administration LIMIT 1);
+-- Replace 16 with your actual ID if it changes, 
+-- but this tests for YOU specifically:
+SELECT COUNT(*) as total FROM grants WHERE created_by = 16;

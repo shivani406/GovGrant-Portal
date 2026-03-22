@@ -42,37 +42,40 @@ export class AdminProfile implements OnInit {
 }
 
   loadCompleteProfile(id: number) {
-  console.log("Starting profile fetch for ID:", id);
-
-  // Test ONLY the admin profile first
+  // 1. Fetch Admin Details
   this.grantService.getAdminProfile(id).subscribe({
     next: (data) => {
-      console.log("ADMIN DATA RECEIVED:", data);
       this.adminDetails = data;
       this.cdr.detectChanges();
-    },
-    error: (err) => console.error("ADMIN API FAILED:", err)
+    }
   });
 
-  // Test Grants count separately
-  this.grantService.getAllGrants().subscribe({
+  // 2. Fetch specific count of grants published by THIS admin
+  this.grantService.getAdminGrantsCount(id).subscribe({
     next: (data) => {
-      console.log("GRANTS RECEIVED:", data.length);
-      this.stats.grantsPublished = data.length;
-    },
-    error: (err) => console.error("GRANTS API FAILED:", err)
+      
+      this.stats.grantsPublished = data.count;
+      this.cdr.detectChanges();
+    }
   });
 
-  // Test Applications separately
+  // 3. Fetch applications and filter by LOWERCASE status
   this.grantService.getAllApplications().subscribe({
-    next: (data) => {
-      console.log("APPS RECEIVED:", data.length);
-      this.stats.grantsApproved = data.filter((a: any) => a.application_status === 'Approved').length;
-      this.stats.grantsRejected = data.filter((a: any) => a.application_status === 'Rejected').length;
-    },
-    error: (err) => console.error("APPS API FAILED:", err)
-  });
+  next: (data: any[]) => {
+    console.log("Raw Applications for Stats:", data);
+    
+    // Use .toLowerCase() to ensure it matches regardless of how it's stored in SQL
+    this.stats.grantsApproved = data.filter(a => 
+      a.application_status?.toLowerCase() === 'approved'
+    ).length;
 
+    this.stats.grantsRejected = data.filter(a => 
+      a.application_status?.toLowerCase() === 'rejected'
+    ).length;
+
+    this.cdr.detectChanges();
+  }
+});
   this.grantService.getAdminGrantsCount(id).subscribe({
     next: (data) => {
       console.log("MY GRANTS COUNT:", data.count);
