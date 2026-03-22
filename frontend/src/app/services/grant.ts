@@ -52,4 +52,11 @@ export class GrantService {
     return this.http.post('http://localhost:3000/api/admin/grants', grantData);
   }
 
+  getApplicationById(id: string): Observable<any> {
+    return this.http.get(`http://localhost:3000/api/applications/${id}`);
+  }
+  updateApplicationStatus(id: string, status: string): Observable<any> {
+    return this.http.put(`http://localhost:3000/api/applications/${id}/status`, { status });
+  }
+
 }

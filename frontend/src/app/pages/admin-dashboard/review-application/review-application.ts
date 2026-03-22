@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
+import { GrantService } from '../../../services/grant';
 
 @Component({
   selector: 'app-review-application',
@@ -12,46 +13,53 @@ import { ActivatedRoute, Router } from '@angular/router';
 
 export class ReviewApplication implements OnInit {
   applicationId: string | null = '';
-  // This object mimics data fetched from your database
   applicationData: any = null;
 
-  constructor(private route: ActivatedRoute, private router: Router) {}
+  constructor(
+    private route: ActivatedRoute, 
+    private router: Router,
+    private grantService: GrantService
+  ) {}
 
   ngOnInit() {
-    // 1. Get the ID from the URL
     this.applicationId = this.route.snapshot.paramMap.get('id');
-    
-    // 2. Mock Database Fetch (Replace with your API service later)
     this.fetchApplicationDetails(this.applicationId);
   }
 
-  fetchApplicationDetails(id: string | null) {
-    // Simulate database data based on your Grant Portal workflow
-    this.applicationData = {
-      fullName: 'Rahul Sharma',
-      email: 'rahul@example.com',
-      grantType: 'Education Fund',
-      incomeDetails: '5,00,000 per annum',
-      reason: 'Support for Higher Studies in Computer Engineering.',
-      status: 'Pending'
-    };
+   goToAdminProfile() {
+    this.router.navigate(['/admin-profile']);
   }
 
-    goToAdminProfile() {
-      this.router.navigate(['/admin-profile']);
-    }
-  
-    approveApplication() {
-    alert("Application Approved successfully!");
-    // Optional: Navigate back to dashboard after approval
-    this.router.navigate(['/admin-dashboard']);
-}
+  fetchApplicationDetails(id: string | null) {
+    if (!id) return;
+    this.grantService.getApplicationById(id).subscribe({
+      next: (data:any[]) => this.applicationData = data,
+      error: (err:any[]) => console.error("Error fetching details:", err)
+    });
+  }
+
+  approveApplication() {
+    if (!this.applicationId) return;
+
+    this.grantService.updateApplicationStatus(this.applicationId, 'Approved').subscribe({
+      next: () => {
+        alert("Application Approved successfully!");
+        this.router.navigate(['/admin-dashboard']);
+      },
+      error: (err) => alert("Failed to approve: " + err.message)
+    });
+  }
 
   rejectApplication() {
-    const reason = confirm("Are you sure you want to reject this application?");
-    if (reason) {
-        alert("Application Rejected.");
-        this.router.navigate(['/admin-dashboard']);
+    const confirmed = confirm("Are you sure you want to reject this application?");
+    if (confirmed && this.applicationId) {
+      this.grantService.updateApplicationStatus(this.applicationId, 'Rejected').subscribe({
+        next: () => {
+          alert("Application Rejected.");
+          this.router.navigate(['/admin-dashboard']);
+        },
+        error: (err) => alert("Failed to reject: " + err.message)
+      });
     }
-}
+  }
 }

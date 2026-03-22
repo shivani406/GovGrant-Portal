@@ -259,6 +259,18 @@ app.post('/api/admin/grants', async (req, res) => {
     }
 });
 
+//Review Application Route
+app.put('/api/applications/:id/status', (req, res) => {
+    const appId = req.params.id;
+    const newStatus = req.body.status;
+    const query = "UPDATE application_form_data SET application_status = ? WHERE application_id = ?";
+    
+    db.query(query, [newStatus, appId], (err, result) => {
+        if (err) return res.status(500).send(err);
+        res.send({ message: "Status updated successfully" });
+    });
+});
+
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
     console.log(`✅ Backend Server running on http://localhost:${PORT}`);
