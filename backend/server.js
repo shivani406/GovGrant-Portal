@@ -265,44 +265,30 @@ app.post('/api/admin/grants', async (req, res) => {
 });
 
 //Review Application Route
-app.get('/api/applications/:id', async (req, res) => {
-    const appId = req.params.id;
+app.post('/api/admin/review-application', async (req, res) => {
+    // Destructure the data coming from Angular
+    // IMPORTANT: Make sure 'status' matches exactly what's in your Angular payload
+    const { application_id, status, admin_id } = req.body;
     
-    // 1. Force a log to see if the request even reaches the server
-    console.log("-----------------------------------------");
-    console.log("DEBUG: Request received for ID:", appId);
+    console.log("DEBUG: Received Payload:", req.body); // Check your terminal to see if status is 'Approved' or undefined
 
     try {
         const query = `
-            SELECT 
-                a.application_id, 
-                a.applicant_name, 
-                a.applicant_email, 
-                g.grant_title 
-            FROM application_form_data a
-            JOIN grants g ON a.grant_id = g.grant_id
-            WHERE a.application_id = ?`;
+            INSERT INTO Application_status (application_id, app_status, reviewed_by, reviewed_at)
+            VALUES (?, ?, ?, CURDATE())
+            ON DUPLICATE KEY UPDATE 
+                app_status = VALUES(app_status),
+                reviewed_by = VALUES(reviewed_by),
+                reviewed_at = CURDATE()`;
 
-        const [rows] = await db.query(query, [appId]);
+        // If 'status' is undefined here, MySQL inserts NULL. 
+        // We force it to lowercase to match your profile filter.
+        await db.query(query, [application_id, status ? status.toLowerCase() : 'pending', admin_id]);
 
-        if (rows.length === 0) {
-            console.log("DEBUG: No rows found for ID:", appId);
-            return res.status(404).json({ error: "Application not found" });
-        }
-
-        res.json(rows[0]);
+        res.json({ message: `Success! Status set to ${status}` });
     } catch (err) {
-        // 2. FORCE the error to the terminal
-        console.log("CRITICAL SQL ERROR:");
-        console.error(err); // This prints the full stack trace
-        console.log("-----------------------------------------");
-        
-        // 3. Send the error message to the browser so you can see it in the Network tab
-        res.status(500).json({ 
-            error: "Server Error", 
-            message: err.message,
-            sqlCode: err.code 
-        });
+        console.error("POST ERROR:", err.message);
+        res.status(500).json({ error: err.message });
     }
 });
 

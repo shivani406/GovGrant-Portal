@@ -38,7 +38,6 @@ export class ReviewApplication implements OnInit {
       next: (data:any) => {
         console.log("Data received from server:", data);
         this.applicationData = data;
-
         this.cdr.detectChanges();
       },
       error: (err:any) => console.error("Error fetching details:", err)
@@ -48,21 +47,24 @@ export class ReviewApplication implements OnInit {
   approveApplication() {
     if (!this.applicationId) return;
 
-    this.grantService.updateApplicationStatus(this.applicationId, 'Approved').subscribe({
-      next: () => {
-        alert("Application Approved successfully!");
-        this.router.navigate(['/admin-dashboard']);
-      },
-      error: (err) => alert("Failed to approve: " + err.message)
-    });
-  }
+    
+    const loggedInAdminId = localStorage.getItem('admin_id');
 
-  
+    // Now this line matches the 3-argument definition in the service!
+    this.grantService.updateApplicationStatus(this.applicationId, 'approved', loggedInAdminId).subscribe({
+     next: () => {
+      alert("Application Approved!");
+      this.router.navigate(['/admin-profile']);
+    },
+    error: (err) => console.error(err)
+  });
+}
 
   rejectApplication() {
+     const loggedInAdminId = localStorage.getItem('admin_id');
     const confirmed = confirm("Are you sure you want to reject this application?");
     if (confirmed && this.applicationId) {
-      this.grantService.updateApplicationStatus(this.applicationId, 'Rejected').subscribe({
+      this.grantService.updateApplicationStatus(this.applicationId, 'Rejected' , loggedInAdminId).subscribe({
         next: () => {
           alert("Application Rejected.");
           this.router.navigate(['/admin-dashboard']);

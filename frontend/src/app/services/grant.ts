@@ -51,21 +51,21 @@ export class GrantService {
   addGrant(grantData: any): Observable<any> {
     return this.http.post('http://localhost:3000/api/admin/grants', grantData);
   }
-  
+
   getApplicationById(id: string) {
   return this.http.get<any>(`http://localhost:3000/api/applications/${id}`);
   }
 
-  updateApplicationStatus(appId: string, status: string) {
-    const adminId = localStorage.getItem('admin_id'); 
-    return this.http.post('http://localhost:3000/api/admin/review-application', {
-    application_id: appId,
-    admin_id: adminId,
-    app_status: status,
-
-    });
-  }
- 
+  updateApplicationStatus(applicationId: string, status: string, adminId: string | null) {
+  const payload = {
+    application_id: applicationId,
+    status: status, // This must be called 'status' to match the backend destructuring
+    admin_id: adminId ? Number(adminId) : 1
+  };
+  
+  console.log("Sending Payload to Server:", payload);
+  return this.http.post('http://localhost:3000/api/admin/review-application', payload);
+}
   getAdminProfile(id: number): Observable<any> {
     return this.http.get(`http://localhost:3000/api/administration/${id}`);
   }

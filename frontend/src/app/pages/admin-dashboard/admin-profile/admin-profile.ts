@@ -62,7 +62,6 @@ export class AdminProfile implements OnInit {
   // 3. Fetch applications and filter by LOWERCASE status
   this.grantService.getAllApplications().subscribe({
   next: (data: any[]) => {
-    console.log("Raw Applications for Stats:", data);
     
     // Use .toLowerCase() to ensure it matches regardless of how it's stored in SQL
     this.stats.grantsApproved = data.filter(a => 
