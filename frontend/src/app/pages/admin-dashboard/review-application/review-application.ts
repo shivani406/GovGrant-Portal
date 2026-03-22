@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit , ChangeDetectorRef} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
 import { GrantService } from '../../../services/grant';
@@ -19,7 +19,8 @@ export class ReviewApplication implements OnInit {
   constructor(
     private route: ActivatedRoute, 
     private router: Router,
-    private grantService: GrantService
+    private grantService: GrantService,
+    private cdr: ChangeDetectorRef
   ) {}
 
   ngOnInit() {
@@ -34,8 +35,13 @@ export class ReviewApplication implements OnInit {
   fetchApplicationDetails(id: string | null) {
     if (!id) return;
     this.grantService.getApplicationById(id).subscribe({
-      next: (data:any[]) => this.applicationData = data,
-      error: (err:any[]) => console.error("Error fetching details:", err)
+      next: (data:any) => {
+        console.log("Data received from server:", data);
+        this.applicationData = data;
+
+        this.cdr.detectChanges();
+      },
+      error: (err:any) => console.error("Error fetching details:", err)
     });
   }
 
@@ -50,6 +56,8 @@ export class ReviewApplication implements OnInit {
       error: (err) => alert("Failed to approve: " + err.message)
     });
   }
+
+  
 
   rejectApplication() {
     const confirmed = confirm("Are you sure you want to reject this application?");

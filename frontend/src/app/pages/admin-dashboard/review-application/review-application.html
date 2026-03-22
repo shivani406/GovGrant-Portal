@@ -19,7 +19,7 @@
 <div class="form-container">
     <header class="form-header">
         <h2>Grant Application Form</h2>
-        <span class="app-id-tag"><strong>ID: {{ applicationId }}</strong></span>
+        <span class="app-id-tag"><strong>Citizen ID: {{ applicationId }}</strong></span>
         <br><br>
 
     </header>
@@ -27,22 +27,17 @@
     <div class="form-grid">
         <div class="form-group">
             <label>Full Name</label>
-            <div class="data-field">{{ applicationData?.fullName }}</div>
+            <div class="data-field">{{ applicationData?.applicant_name }}</div>
         </div>
 
         <div class="form-group">
             <label>Email Address</label>
-            <div class="data-field">{{ applicationData?.email }}</div>
+            <div class="data-field">{{ applicationData?.applicant_email }}</div>
         </div>
 
         <div class="form-group">
             <label>Grant Applied For</label>
-            <div class="data-field">{{ applicationData?.grantType }}</div>
-        </div>
-
-        <div class="form-group full-width">
-            <label>Reason for Application</label>
-            <div class="data-field textarea-field">{{ applicationData?.reason }}</div>
+            <div class="data-field">{{ applicationData?.grant_title }}</div>
         </div>
     </div>
 

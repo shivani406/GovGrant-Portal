@@ -267,19 +267,73 @@ app.post('/api/admin/grants', async (req, res) => {
 });
 
 //Review Application Route
-app.put('/api/applications/:id/status', (req, res) => {
+app.get('/api/applications/:id', async (req, res) => {
     const appId = req.params.id;
-    const newStatus = req.body.status;
-    const query = "UPDATE application_form_data SET application_status = ? WHERE application_id = ?";
     
-    db.query(query, [newStatus, appId], (err, result) => {
-        if (err) return res.status(500).send(err);
-        res.send({ message: "Status updated successfully" });
-    });
+    // 1. Force a log to see if the request even reaches the server
+    console.log("-----------------------------------------");
+    console.log("DEBUG: Request received for ID:", appId);
+
+    try {
+        const query = `
+            SELECT 
+                a.application_id, 
+                a.applicant_name, 
+                a.applicant_email, 
+                g.grant_title 
+            FROM application_form_data a
+            JOIN grants g ON a.grant_id = g.grant_id
+            WHERE a.application_id = ?`;
+
+        const [rows] = await db.query(query, [appId]);
+
+        if (rows.length === 0) {
+            console.log("DEBUG: No rows found for ID:", appId);
+            return res.status(404).json({ error: "Application not found" });
+        }
+
+        res.json(rows[0]);
+    } catch (err) {
+        // 2. FORCE the error to the terminal
+        console.log("CRITICAL SQL ERROR:");
+        console.error(err); // This prints the full stack trace
+        console.log("-----------------------------------------");
+        
+        // 3. Send the error message to the browser so you can see it in the Network tab
+        res.status(500).json({ 
+            error: "Server Error", 
+            message: err.message,
+            sqlCode: err.code 
+        });
+    }
+});
+
+app.post('/api/admin/review-application', async (req, res) => {
+    const { application_id, status, admin_id } = req.body;
+    
+    console.log(`DEBUG: Updating ID ${application_id} to ${status}`);
+
+    try {
+        // We use ON DUPLICATE KEY UPDATE because application_id is the Primary Key
+        // in your Application_status table.
+        const query = `
+            INSERT INTO Application_status (application_id, app_status, reviewed_by, reviewed_at)
+            VALUES (?, ?, ?, CURDATE())
+            ON DUPLICATE KEY UPDATE 
+                app_status = VALUES(app_status),
+                reviewed_by = VALUES(reviewed_by),
+                reviewed_at = CURDATE()`;
+
+        await db.query(query, [application_id, status, admin_id || 1]);
+
+        res.json({ message: `Application ${status} successfully!` });
+    } catch (err) {
+        console.error("POST ERROR:", err.message);
+        res.status(500).json({ error: err.message });
+    }
 });
 
 // Admin Profile Route
-// Admin Profile Route - FIXED VERSION
 app.get('/api/administration/:id', async (req, res) => {
     try {
         const adminId = req.params.id;
