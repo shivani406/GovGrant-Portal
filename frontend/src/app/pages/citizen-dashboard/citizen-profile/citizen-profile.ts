@@ -1,4 +1,4 @@
-import { Component , OnInit } from '@angular/core';
+import { Component , OnInit , ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { GrantService } from '../../../services/grant';
 
@@ -14,12 +14,20 @@ export class CitizenProfile implements OnInit {
   
   citizen: any = null;
 
-  constructor(private grantService: GrantService) {}
+  constructor(
+    private grantService: GrantService,
+    private cdr: ChangeDetectorRef
+  ) {}
 
   ngOnInit(): void {
     // 1. Get the ID we saved in Login
     const loggedInId = localStorage.getItem('citizen_id');
 
+    if (!loggedInId) {
+    console.error("❌ No Citizen ID found! Redirecting to login...");
+    // this.router.navigate(['/login']); // Optional: Add Router to your constructor
+    return;
+  }
     if (loggedInId) {
       // 2. Fetch the data from MySQL
       this.grantService.getCitizenProfile(loggedInId).subscribe({
@@ -32,6 +40,7 @@ export class CitizenProfile implements OnInit {
             applications: data.applications // Array of their submitted forms
           };
           console.log("✅ Profile Loaded:", this.citizen);
+          this.cdr.detectChanges();
         },
         error: (err) => console.error("❌ Could not load profile", err)
       });

@@ -31,7 +31,7 @@
           <tr *ngFor="let g of citizen?.applications">
             <td>{{ g.grant_id }}</td>
             <td>{{ g.grant_title }}</td>
-            <td [ngClass]="getStatusClass(g.status)">{{ g.status }}</td>
+            <td [ngClass]="getStatusClass(g.app_status)">{{ g.app_status }}</td>
           </tr>
           <tr *ngIf="citizen?.applications?.length === 0">
             <td colspan="3" class="empty-row">No grant records found in database.</td>

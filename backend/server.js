@@ -25,16 +25,23 @@ app.get('/api/citizen-profile/:id', async (req, res) => {
         const citizenId = req.params.id;
 
         // 1. Get Citizen Basic Info
-        const [userRows] = await db.query('SELECT citizen_id, citizen_name, citizen_email, citizen_phone_number FROM citizen WHERE citizen_id = ?', [citizenId]);
+        const [userRows] = await db.query(
+            'SELECT citizen_id, citizen_name, citizen_email, citizen_phone_number FROM citizen WHERE citizen_id = ?', 
+            [citizenId]
+        );
         
         if (userRows.length === 0) return res.status(404).json({ error: "User not found" });
 
-        // 2. Get their Applications (Joined with Grants table to get the Grant Name)
+        // 2. JOIN with Grants (for Title) AND Application_status (for the Status)
         const [appRows] = await db.query(`
-            SELECT a.*, g.grant_title 
-            FROM application_form_data a
-            JOIN grants g ON a.grant_id = g.grant_id
-            WHERE a.citizen_id = ?`, [citizenId]);
+           SELECT 
+            a.grant_id, 
+            g.grant_title, 
+            COALESCE(s.app_status, 'Applied') AS app_status 
+        FROM Application_form_data a
+        JOIN Grants g ON a.grant_id = g.grant_id
+        LEFT JOIN Application_status s ON a.application_id = s.application_id
+        WHERE a.citizen_id = ?`, [citizenId]);
 
         res.json({
             profile: userRows[0],

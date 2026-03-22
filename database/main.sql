@@ -360,3 +360,6 @@ INSERT INTO Application_status (application_id, app_status, reviewed_by, reviewe
 (48,'rejected',1,'2024-05-01'),
 (49,'pending',NULL,'2024-05-01'),
 (50,'approved',3,'2024-05-01');
+
+-- This removes the UNIQUE restriction from the verification number
+ALTER TABLE Application_form_data DROP INDEX applicant_verification_number;
