@@ -44,27 +44,32 @@ export class ReviewApplication implements OnInit {
     });
   }
 
-  approveApplication() {
-    if (!this.applicationId) return;
+   approveApplication() {
+    // Safety check: only proceed if applicationData exists
+    if (!this.applicationData || !this.applicationData.application_id) {
+      alert("Application data not loaded yet!");
+      return;
+    }
 
-    
+    const appId = this.applicationData.application_id;
     const loggedInAdminId = localStorage.getItem('admin_id');
 
-    // Now this line matches the 3-argument definition in the service!
-    this.grantService.updateApplicationStatus(this.applicationId, 'approved', loggedInAdminId).subscribe({
-     next: () => {
-      alert("Application Approved!");
-      this.router.navigate(['/admin-profile']);
-    },
-    error: (err) => console.error(err)
-  });
-}
+    this.grantService.updateApplicationStatus(appId, 'approved', loggedInAdminId).subscribe({
+      next: () => {
+        alert("Application Approved!");
+        this.router.navigate(['/admin-profile']);
+      },
+      error: (err) => console.error(err)
+    });
+  }
 
   rejectApplication() {
-     const loggedInAdminId = localStorage.getItem('admin_id');
     const confirmed = confirm("Are you sure you want to reject this application?");
-    if (confirmed && this.applicationId) {
-      this.grantService.updateApplicationStatus(this.applicationId, 'Rejected' , loggedInAdminId).subscribe({
+    if (confirmed && this.applicationData && this.applicationData.application_id) {
+      const appId = this.applicationData.application_id;
+      const loggedInAdminId = localStorage.getItem('admin_id');
+
+      this.grantService.updateApplicationStatus(appId, 'rejected', loggedInAdminId).subscribe({
         next: () => {
           alert("Application Rejected.");
           this.router.navigate(['/admin-dashboard']);

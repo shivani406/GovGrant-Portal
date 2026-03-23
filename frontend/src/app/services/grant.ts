@@ -52,9 +52,11 @@ export class GrantService {
     return this.http.post('http://localhost:3000/api/admin/grants', grantData);
   }
 
-  getApplicationById(id: string) {
-  return this.http.get<any>(`http://localhost:3000/api/applications/${id}`);
-  }
+  
+getApplicationById(id: string) {
+  // REMOVE the '/admin' part to match your server.js route exactly!
+  return this.http.get(`http://localhost:3000/api/applications/${id}`); 
+}
 
   updateApplicationStatus(applicationId: string, status: string, adminId: string | null) {
   const payload = {

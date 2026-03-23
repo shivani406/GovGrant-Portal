@@ -369,3 +369,20 @@ SELECT count(*) as total FROM grants WHERE created_by = (SELECT admin_id FROM ad
 -- Replace 16 with your actual ID if it changes, 
 -- but this tests for YOU specifically:
 SELECT COUNT(*) as total FROM grants WHERE created_by = 16;
+
+-- Check if the IDs actually exist in both tables
+SELECT 
+    a.application_id AS form_id, 
+    s.application_id AS status_id, 
+    a.citizen_id, 
+    s.app_status 
+FROM application_form_data a
+LEFT JOIN Application_status s ON a.application_id = s.application_id
+WHERE a.citizen_id = 51;
+
+-- First, delete the 'wrong' entry where the ID was 8
+DELETE FROM Application_status WHERE application_id = 8;
+DELETE FROM Application_status WHERE application_id = 16;
+-- Second, insert the 'correct' entry where the ID is 51
+INSERT INTO Application_status (application_id, app_status, reviewed_by, reviewed_at)
+VALUES (51, 'approved', 16, CURDATE());
